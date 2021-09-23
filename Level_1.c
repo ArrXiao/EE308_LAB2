@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#define Key_Num 32 //CÓïÑÔ¹²ÓĞ32¸ö¹Ø¼ü×Ö
-#define Len_Min 2 //×î¶ÌµÄ³¤¶ÈÎª2
-#define Len_Max 8 //×î³¤µÄ³¤¶ÈÎª8
+#define Key_Num 32 //Cè¯­è¨€å…±æœ‰32ä¸ªå…³é”®å­—
+#define Len_Min 2 //æœ€çŸ­çš„é•¿åº¦ä¸º2
+#define Len_Max 8 //æœ€é•¿çš„é•¿åº¦ä¸º8
 const char Key[Key_Num][Len_Max+1]={
 "auto","break","case","char","const","continue","default","do","double",
 "else","enum","extern","float","for","goto","if","int","long","register",
@@ -10,10 +10,10 @@ const char Key[Key_Num][Len_Max+1]={
 "union","unsigned","void","volatile","while"
 };
 
-int count[Key_Num];//´¢´æ¹Ø¼ü×Ö³öÏÖµÄ´ÎÊı 
+int count[Key_Num];//å‚¨å­˜å…³é”®å­—å‡ºç°çš„æ¬¡æ•° 
 char input[Len_Max+1];
 
-void CheckKeyWord(){//±È½ÏÊÇ·ñÎª¹Ø¼ü×Ö 
+void CheckKeyWord(){//æ¯”è¾ƒæ˜¯å¦ä¸ºå…³é”®å­— 
 	int i,result;
 	for(i=0;i<Key_Num;i++){
 		result=strcmp(input,Key[i]);
@@ -26,58 +26,58 @@ void CheckKeyWord(){//±È½ÏÊÇ·ñÎª¹Ø¼ü×Ö
 	}
 }
 
-int IsKeyLetter(char c){//ÅĞ¶ÏÊÇ·ñÎªĞ¡Ğ´×ÖÄ¸ 
+int IsKeyLetter(char c){//åˆ¤æ–­æ˜¯å¦ä¸ºå°å†™å­—æ¯ 
 	return c>='a' && c<='z';
 }
-int IsOtherLetter(char c){//ÅĞ¶ÏÊÇ·ñÎª´óĞ´×ÖÄ¸»òÕßÊı×Ö 
+int IsOtherLetter(char c){//åˆ¤æ–­æ˜¯å¦ä¸ºå¤§å†™å­—æ¯æˆ–è€…æ•°å­— 
 	return c>='A' && c<='Z' || c>='0' && c<='9' || c=='_';
 }
 
 enum MY_STATE{
-	INVAILD,//³õÊ¼Ê±
-	IN_QUOTE,//ÒıºÅÄÚ
-	IN_QUOTE_TRANS,//ÒıºÅÄÚ¶Áµ½×ªÒå·û
-	IN_WORD,//ÓĞ¿ÉÄÜÊÇ¹Ø¼ü´Ê
-	NOT_KEY,//²»ÊÇ¹Ø¼ü´Ê
-	COMMENT_1,//µÚÒ»¸ö×¢ÊÍ·û(/)
-	COMMENT_LINE,//ĞĞ×¢ÊÍ
-	COMMENT_BLOCK,//¿é×¢ÊÍ
-	COMMENT_BLOCK_1//¿é×¢ÊÍÄÚ¶Áµ½'*'
+	INVAILD,//åˆå§‹æ—¶
+	IN_QUOTE,//å¼•å·å†…
+	IN_QUOTE_TRANS,//å¼•å·å†…è¯»åˆ°è½¬ä¹‰ç¬¦
+	IN_WORD,//æœ‰å¯èƒ½æ˜¯å…³é”®è¯
+	NOT_KEY,//ä¸æ˜¯å…³é”®è¯
+	COMMENT_1,//ç¬¬ä¸€ä¸ªæ³¨é‡Šç¬¦(/)
+	COMMENT_LINE,//è¡Œæ³¨é‡Š
+	COMMENT_BLOCK,//å—æ³¨é‡Š
+	COMMENT_BLOCK_1//å—æ³¨é‡Šå†…è¯»åˆ°'*'
 };
 
 int main(){
 	FILE *fi;
 	int i;
 	enum MY_STATE state;
-	fi=fopen("a.c","r");//´ò¿ªĞèÒªÊµÑéµÄÎÄ¼ş 
+	fi=fopen("a.c","r");//æ‰“å¼€éœ€è¦å®éªŒçš„æ–‡ä»¶ 
 	if(fi==NULL) return 1;
 	i=0;
 	state=INVAILD;
-	memset(count,0,sizeof(count));//³õÊ¼»¯ 
-	while(fscanf(fi,"%c",&input[i])==1){// ¸ñÊ½»¯·½Ê½¶ÁÈ¡ 
+	memset(count,0,sizeof(count));//åˆå§‹åŒ– 
+	while(fscanf(fi,"%c",&input[i])==1){// æ ¼å¼åŒ–æ–¹å¼è¯»å– 
 		switch(state){
 			case INVAILD:
 			if(IsKeyLetter(input[i])){
 				state=IN_WORD;
 				i++;
 			}
-			else if(IsOtherLetter(input[i]))//ÅĞ¶ÏÊÇ·ñÎªĞ¡Ğ´×ÖÄ¸ 
+			else if(IsOtherLetter(input[i]))//åˆ¤æ–­æ˜¯å¦ä¸ºå°å†™å­—æ¯ 
 				state=NOT_KEY;
-			else if(input[i]=='\"')//ÅĞ¶ÏÒıºÅ 
+			else if(input[i]=='\"')//åˆ¤æ–­å¼•å· 
 				state=IN_QUOTE;
-			else if(input[i]=='/')//ÅĞ¶Ï×¢ÊÍ 
+			else if(input[i]=='/')//åˆ¤æ–­æ³¨é‡Š 
 				state=COMMENT_1;
 			break;
 		
 			case IN_QUOTE:
 			if(input[i]=='\\')
 				state=IN_QUOTE_TRANS;
-			else if(input[i]=='\n')//ÕâÀïÂ©ÒıºÅ£¬±àÒë´íÎó¡£
+			else if(input[i]=='\n')//è¿™é‡Œæ¼å¼•å·ï¼Œç¼–è¯‘é”™è¯¯ã€‚
 				state=INVAILD;
 			break;
 		
 			case IN_QUOTE_TRANS:
-			if(input[i]=='\n')//ÕâÀïÂ©ÒıºÅ£¬±àÒë´íÎó¡£
+			if(input[i]=='\n')//è¿™é‡Œæ¼å¼•å·ï¼Œç¼–è¯‘é”™è¯¯ã€‚
 				state=INVAILD;
 			else
 				state=IN_QUOTE;
