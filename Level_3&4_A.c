@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#define Key_Num 32 //CÓïÑÔ¹²ÓĞ32¸ö¹Ø¼ü×Ö
-#define Len_Min 2 //×î¶ÌµÄ³¤¶ÈÎª2
-#define Len_Max 8 //×î³¤µÄ³¤¶ÈÎª8
+#define Key_Num 32 //Cè¯­è¨€å…±æœ‰32ä¸ªå…³é”®å­—
+#define Len_Min 2 //æœ€çŸ­çš„é•¿åº¦ä¸º2
+#define Len_Max 8 //æœ€é•¿çš„é•¿åº¦ä¸º8
 const char Key[Key_Num][Len_Max+1]={
 "auto","break","case","char","const","continue","default","do","double",
 "else","enum","extern","float","for","goto","if","int","long","register",
@@ -13,48 +13,48 @@ const char Key[Key_Num][Len_Max+1]={
 int if_else_num[2]={0,0};
 int if_elsenum=0;
 int if_elseif_elsenum=0;
-int count[Key_Num];//´¢´æ¹Ø¼ü×Ö³öÏÖµÄ´ÎÊı 
+int count[Key_Num];//å‚¨å­˜å…³é”®å­—å‡ºç°çš„æ¬¡æ•° 
 char input[Len_Max+1];
 int Case[100];
-//¶¨ÒåÕ»
+//å®šä¹‰æ ˆ
 typedef struct{
 	int data[100];
 	int top;
 	int bottom;
 }stack;
 
-//´´½¨Õ»
+//åˆ›å»ºæ ˆ
 stack *StackCreate(){
-	stack *p=(stack*)malloc(sizeof(stack));//·ÖÅäĞÂ¿Õ¼ä 
-	if(p==NULL)//·ÖÅäÊ§°Ü 
+	stack *p=(stack*)malloc(sizeof(stack));//åˆ†é…æ–°ç©ºé—´ 
+	if(p==NULL)//åˆ†é…å¤±è´¥ 
 	return 0;
-	p->bottom=p->top=0;//·ÖÅä³É¹¦ 
+	p->bottom=p->top=0;//åˆ†é…æˆåŠŸ 
 	return p;
 }
 
-//ÈëÕ»
+//å…¥æ ˆ
 void StackInput(stack *p,int num){
-	p->data[p->top]=num;//´æÈëÕ»ÖĞ 
-	p->top++;//Õ»¶¥Ö¸Õë¼Ó1 
+	p->data[p->top]=num;//å­˜å…¥æ ˆä¸­ 
+	p->top++;//æ ˆé¡¶æŒ‡é’ˆåŠ 1 
 } 
 
-//³öÕ» 
+//å‡ºæ ˆ 
 void StackOutput(stack *p){
-	if(p->top!=p->bottom){//Õ»·Ç¿Õ 
-		p->top--;//Õ»¶¥¼õ1 
+	if(p->top!=p->bottom){//æ ˆéç©º 
+		p->top--;//æ ˆé¡¶å‡1 
 	}
 }
 
 
-void CheckKeyWord(){//±È½ÏÊÇ·ñÎª¹Ø¼ü×Ö 
+void CheckKeyWord(){//æ¯”è¾ƒæ˜¯å¦ä¸ºå…³é”®å­— 
 	int i,result;
 	static int case_num=0;
 	for(i=0;i<Key_Num;i++){
 		result=strcmp(input,Key[i]);
-		if(result==0&i==25&count[i]!=0)case_num++;//level_2ÅĞ¶ÏÎªµÚ¼¸¸öswitch 
-		if(result==0&i==2)Case[case_num]++;//level_2ÅĞ¶ÏÔÚÒ»¸öswichÏÂcase¸öÊı 
-		if(result==0&i==15)if_else_num[0]++;//ÅĞ¶Ïif¸öÊı 
-		if(result==0&i==9)if_else_num[1]++;//ÅĞ¶Ïelse¸öÊı
+		if(result==0&i==25&count[i]!=0)case_num++;//level_2åˆ¤æ–­ä¸ºç¬¬å‡ ä¸ªswitch 
+		if(result==0&i==2)Case[case_num]++;//level_2åˆ¤æ–­åœ¨ä¸€ä¸ªswichä¸‹caseä¸ªæ•° 
+		if(result==0&i==15)if_else_num[0]++;//åˆ¤æ–­ifä¸ªæ•° 
+		if(result==0&i==9)if_else_num[1]++;//åˆ¤æ–­elseä¸ªæ•°
 		if(result==0){
 			count[i]++;
 			break;
@@ -64,24 +64,24 @@ void CheckKeyWord(){//±È½ÏÊÇ·ñÎª¹Ø¼ü×Ö
 	}
 }
 
-int IsKeyLetter(char c){//ÅĞ¶ÏÊÇ·ñÎªĞ¡Ğ´×ÖÄ¸ 
+int IsKeyLetter(char c){//åˆ¤æ–­æ˜¯å¦ä¸ºå°å†™å­—æ¯ 
 	return c>='a' && c<='z';
 }
-int IsOtherLetter(char c){//ÅĞ¶ÏÊÇ·ñÎª´óĞ´×ÖÄ¸»òÕßÊı×Ö 
+int IsOtherLetter(char c){//åˆ¤æ–­æ˜¯å¦ä¸ºå¤§å†™å­—æ¯æˆ–è€…æ•°å­— 
 	return c>='A' && c<='Z' || c>='0' && c<='9' || c=='_';
 }
-void stackfunc(stack *p){//ÅĞ¶ÏÊÇ·ñµ¯Õ»ÄÚÈİ°üÀ¨else if
+void stackfunc(stack *p){//åˆ¤æ–­æ˜¯å¦å¼¹æ ˆå†…å®¹åŒ…æ‹¬else if
 	int comp=0;
-	if(if_else_num[0]==1&&if_else_num[1]==0){//Èç¹ûÊÇifÔòÑ¹Õ»1
+	if(if_else_num[0]==1&&if_else_num[1]==0){//å¦‚æœæ˜¯ifåˆ™å‹æ ˆ1
 		if_else_num[0]=0;
 		StackInput(p,1);
 	}
-	if(if_else_num[0]==1&&if_else_num[1]==1){//Èç¹ûÊÇelse ifÔòÑ¹Õ»3
+	if(if_else_num[0]==1&&if_else_num[1]==1){//å¦‚æœæ˜¯else ifåˆ™å‹æ ˆ3
 		if_else_num[0]=0;
 		if_else_num[1]=0;
 		StackInput(p,3);
 	}
-	if(if_else_num[0]==0&&if_else_num[1]==1){//Èç¹ûÊÇelse£¬Ôòµ¯Õ»Ö±µ½µ¯³ö1
+	if(if_else_num[0]==0&&if_else_num[1]==1){//å¦‚æœæ˜¯elseï¼Œåˆ™å¼¹æ ˆç›´åˆ°å¼¹å‡º1
 		while (p->data[p->top-1]!=1){
             if (p->data[p->top-1]==3){
                 comp=1;
@@ -95,15 +95,15 @@ void stackfunc(stack *p){//ÅĞ¶ÏÊÇ·ñµ¯Õ»ÄÚÈİ°üÀ¨else if
 	}
 }
 enum MY_STATE{
-	INVAILD,//³õÊ¼Ê±
-	IN_QUOTE,//ÒıºÅÄÚ
-	IN_QUOTE_TRANS,//ÒıºÅÄÚ¶Áµ½×ªÒå·û
-	IN_WORD,//ÓĞ¿ÉÄÜÊÇ¹Ø¼ü´Ê
-	NOT_KEY,//²»ÊÇ¹Ø¼ü´Ê
-	COMMENT_1,//µÚÒ»¸ö×¢ÊÍ·û(/)
-	COMMENT_LINE,//ĞĞ×¢ÊÍ
-	COMMENT_BLOCK,//¿é×¢ÊÍ
-	COMMENT_BLOCK_1//¿é×¢ÊÍÄÚ¶Áµ½'*'
+	INVAILD,//åˆå§‹æ—¶
+	IN_QUOTE,//å¼•å·å†…
+	IN_QUOTE_TRANS,//å¼•å·å†…è¯»åˆ°è½¬ä¹‰ç¬¦
+	IN_WORD,//æœ‰å¯èƒ½æ˜¯å…³é”®è¯
+	NOT_KEY,//ä¸æ˜¯å…³é”®è¯
+	COMMENT_1,//ç¬¬ä¸€ä¸ªæ³¨é‡Šç¬¦(/)
+	COMMENT_LINE,//è¡Œæ³¨é‡Š
+	COMMENT_BLOCK,//å—æ³¨é‡Š
+	COMMENT_BLOCK_1//å—æ³¨é‡Šå†…è¯»åˆ°'*'
 };
 
 int main(){
@@ -112,37 +112,37 @@ int main(){
 	stack *p;
 	p=StackCreate();
 	enum MY_STATE state;
-	fi=fopen("a.c","r");//´ò¿ªĞèÒªÊµÑéµÄÎÄ¼ş 
+	fi=fopen("a.c","r");//æ‰“å¼€éœ€è¦å®éªŒçš„æ–‡ä»¶ 
 	if(fi==NULL) return 1;
 	i=0;
 	state=INVAILD;
 	memset(count,0,sizeof(count));
-	memset(Case,0,sizeof(Case));//³õÊ¼»¯
-	while(fscanf(fi,"%c",&input[i])==1){// ¸ñÊ½»¯·½Ê½¶ÁÈ¡
-		if(input[i]==0x0A&&(if_else_num[0]!=0||if_else_num[1]!=0))stackfunc(p);//µ÷ÓÃÕ»·½·¨ 
+	memset(Case,0,sizeof(Case));//åˆå§‹åŒ–
+	while(fscanf(fi,"%c",&input[i])==1){// æ ¼å¼åŒ–æ–¹å¼è¯»å–
+		if(input[i]==0x0A&&(if_else_num[0]!=0||if_else_num[1]!=0))stackfunc(p);//è°ƒç”¨æ ˆæ–¹æ³• 
 		switch(state){
 			case INVAILD:
 			if(IsKeyLetter(input[i])){
 				state=IN_WORD;
 				i++;
 			}
-			else if(IsOtherLetter(input[i]))//ÅĞ¶ÏÊÇ·ñÎªĞ¡Ğ´×ÖÄ¸ 
+			else if(IsOtherLetter(input[i]))//åˆ¤æ–­æ˜¯å¦ä¸ºå°å†™å­—æ¯ 
 				state=NOT_KEY;
-			else if(input[i]=='\"')//ÅĞ¶ÏÒıºÅ 
+			else if(input[i]=='\"')//åˆ¤æ–­å¼•å· 
 				state=IN_QUOTE;
-			else if(input[i]=='/')//ÅĞ¶Ï×¢ÊÍ 
+			else if(input[i]=='/')//åˆ¤æ–­æ³¨é‡Š 
 				state=COMMENT_1;
 			break;
 		
 			case IN_QUOTE:
 			if(input[i]=='\\')
 				state=IN_QUOTE_TRANS;
-			else if(input[i]=='\n')//ÕâÀïÂ©ÒıºÅ£¬±àÒë´íÎó¡£
+			else if(input[i]=='\n')//è¿™é‡Œæ¼å¼•å·ï¼Œç¼–è¯‘é”™è¯¯ã€‚
 				state=INVAILD;
 			break;
 		
 			case IN_QUOTE_TRANS:
-			if(input[i]=='\n')//ÕâÀïÂ©ÒıºÅ£¬±àÒë´íÎó¡£
+			if(input[i]=='\n')//è¿™é‡Œæ¼å¼•å·ï¼Œç¼–è¯‘é”™è¯¯ã€‚
 				state=INVAILD;
 			else
 				state=IN_QUOTE;
@@ -221,14 +221,14 @@ int main(){
 		if(count[i]!=0)total=total+count[i];
 	}
 		printf("%s: %d\n","total num",total);
-		printf("%s num: %d\n",Key[25],count[25]);//level_2ÊäÈëswichºÍcase 
+		printf("%s num: %d\n",Key[25],count[25]);//level_2è¾“å…¥swichå’Œcase 
 		printf("%s num: ",Key[2]); 
 	for(i=0;i<count[25];i++){
 		if(i!=count[25]-1)printf("%d ",Case[i]);
-		if(i==count[25]-1)printf("%d\n",Case[i]);//level_2ÊäÈëswichºÍcase
+		if(i==count[25]-1)printf("%d\n",Case[i]);//level_2è¾“å…¥swichå’Œcase
 	}
-	printf("if_else num:%d\n",if_elsenum);//level_3Í³¼Æif_else¸öÊı
-	printf("if_elseif_else num:%d\n",if_elseif_elsenum);//level_4Í³¼Æif_else_if¸öÊı
+	printf("if_else num:%d\n",if_elsenum);//level_3ç»Ÿè®¡if_elseä¸ªæ•°
+	printf("if_elseif_else num:%d\n",if_elseif_elsenum);//level_4ç»Ÿè®¡if_else_ifä¸ªæ•°
 
 	return 0;
 	}
